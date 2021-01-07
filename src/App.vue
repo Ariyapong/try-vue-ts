@@ -32,4 +32,10 @@
     }
   }
 }
+.top-pad{
+  padding: .5rem 0;
+}
+.bo-rd {
+  border-radius: 10px;
+}
 </style>

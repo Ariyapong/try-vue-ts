@@ -2,33 +2,48 @@
   <Fragment>
     <div class="container">
       <div class="my-bio">
-        <div>This is my story</div>
+        <div class="top-pad">This is my story</div>
         <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
-        <img class="bo-rd" alt="my story" src="/images/wo-story.jpg" />
-
+        <img class="bo-rd top-pad" alt="my story" src="/images/wo-story.jpg" />
         <Author :yourName="this.fullName" type="name" />
         <Author :yourName="this.projectDetail" type="projectName" />
         <!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
-        <div class="friend-name">User: {{ nameUpperCase }}</div>
+        <div class="friend-name top-pad">
+          <label for="user-name" class="block top-pad">
+            User: {{ name }}
+          </label>
+          <input
+            class="top-mg"
+            id="user-name"
+            type="text"
+            :value="name"
+            @input="updateName($event.target.value)"
+          />
+        </div>
+        <div class="mobile-no top-pad">
+          <label for="mobile-num" class="block">
+            Mobile No. : {{ mobileNo }}
+          </label>
+          <input
+            id="mobile-num"
+            class="top-mg"
+            type="text"
+            v-model="mobileNo"
+          />
+        </div>
       </div>
 
-      <!-- <input
-        type="text"
-        :value="name"
-        @change="updateName($event.target.value)"
-      /> -->
+      <!-- <input type="text" v-model="name" /> -->
     </div>
     <div class="control-panel-one top-pad">
       <button v-on:click="clickMe">Click Me!</button>
     </div>
-    <div class="control-panel-three top-pad">
-      <!-- <button v-on:click="testUpdateName">Update name!</button> -->
-      <!-- <button v-on:click="updateName($tonytubby)">Update name!</button> -->
-
-      <!-- <button @click="updateName($tonytubby)">Update name!</button> -->
-      <button @click="testUpdateName">Update name!</button>
-
-    </div>
+    <!-- <div class="control-panel-three top-pad">
+      <button v-on:click="testUpdateName">Update name!</button>
+      <button v-on:click="updateName($tonytubby)">Update name!</button>
+      <button @click="updateName('tonytubby')">Update name!</button>
+      <button @click="testUpdateName('tonnyjaaa')">Update name!</button>
+    </div> -->
     <div class="control-panel-two top-pad">
       <button v-on:click="resetName">Reset name</button>
     </div>
@@ -59,6 +74,7 @@ export default class Bio extends Mixins(ProjectMixin) {
 
   private firstName = "tomas";
   private lastName = "ferguson";
+  private mobileNo = "0961112256";
   private baseLink = process.env.BASE_URL;
 
   private list: Array<object> = [
@@ -80,16 +96,6 @@ export default class Bio extends Mixins(ProjectMixin) {
     },
   ];
 
-  //vuex state management
-  @user.State
-  public name!: string;
-
-  @user.Getter
-  public nameUpperCase!: string;
-
-  @user.Action
-  public updateName!: (newName: string) => void;
-
   //lifecycle hook
   //lifecycle of vuejs that consist of mounted, created, beforeUpdate,
   //like react componentDidMount, componentDidUpdate, componentWillUnmount
@@ -97,6 +103,7 @@ export default class Bio extends Mixins(ProjectMixin) {
   mounted() {
     //debug vuex state
     console.log("state management name : ", this.name);
+    console.log("state management store : ", user);
   }
 
   //compute
@@ -110,10 +117,22 @@ export default class Bio extends Mixins(ProjectMixin) {
     this.lastName = names[names.length - 1];
   }
 
+  set mobileNoFunc(newValue: string) {
+    this.mobileNo = newValue;
+  }
+
+  get mobileNoFunc(): string {
+    return this.mobileNo;
+  }
+
   //mixin - get project details from project desc file
   get projectDetail(): string {
     return this.projName + " " + "Ariya HS";
   }
+
+  // set name(newValue: string) {
+  //   this.updateName(newValue);
+  // }
 
   //method - method of the class component
   public clickMe(): void {
@@ -133,14 +152,31 @@ export default class Bio extends Mixins(ProjectMixin) {
     }
   }
 
-  public testUpdateName(): void {
-    // alert("hello this is a test")
-    this.updateName("somethingeieiei");
+  public handleMobileNoChange(value: string): void {
+    this.mobileNoFunc = value;
+  }
+
+  public testUpdateName(value: string): void {
+    // alert(value)
+
+    // this.context.commit("setName", value);
+    this.updateName(value);
+    // this.updateName = 'mobildllseiivoxldksdfs';
   }
 
   public addNumber(num1: number, num2: number): number {
     return num1 + num2;
   }
+
+  //vuex state management
+  @user.State
+  public name!: string;
+
+  @user.Getter
+  public nameUpperCase!: string;
+
+  @user.Action
+  public updateName!: (newName: string) => void;
 
   // watch anything in this Bio class
   // specific option for deeper detail eg old value

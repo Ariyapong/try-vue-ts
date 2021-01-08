@@ -35,7 +35,13 @@
 .top-pad{
   padding: .5rem 0;
 }
+.top-mg{
+  margin: .5rem 0;
+}
 .bo-rd {
   border-radius: 10px;
+}
+.block {
+  display: block;
 }
 </style>
